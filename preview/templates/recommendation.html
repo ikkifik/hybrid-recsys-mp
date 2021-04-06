@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">
+    This is 'Recommendation' page
+</h1>
+
+<p class="subtitle is-size-6">
+    <strong>Recommendation</strong> page contains list of data with more interactive, you can see for the product detail
+    once you click the product ads
+</p>
+
+<form action="/recommendation" method="POST">
+    <div class="field is-grouped">
+        <p class="control is-expanded">
+            <input type="text" name="price" placeholder="Price (int)" class="input">
+        </p>
+        <p class="control is-expanded">
+            <input type="number" name="topk" placeholder="Top List (int)" class="input">
+        </p>
+        <p class="control select">
+            <select name="keyword">
+                {% for kw in keywords %}
+                <option value="{{ kw }}">{{ kw }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p class="control">
+            <button class="button is-link">Submit</button>
+        </p>
+    </div>
+</form>
+
+<br>
+
+<div class="columns is-multiline">
+    {% for entry in data_entry %}
+    <div class="column is-4">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-192x192">
+                    {% if entry['image'].find('blob') == -1 and entry['image'].find('cvf') == -1%}
+                    <img src="{{ entry['image'] }}" alt="Placeholder image">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/default-128x128.png')}}" alt="Placeholder image">
+                    {% endif %}
+                </figure>
+            </div>
+          
+            {% if entry['url'].find('shopee') == -1%}
+            {% if entry['url'].find('bukalapak') == -1 %}
+            <div class="card-content has-background-success">
+                <div class="media">
+                    <div class="media-content">
+                        <a href="/detail?idp={{ entry['id_product'] }}&idx={{ entry['index'] }}" id="postData">
+                            <p class="title is-4 is-size-6 has-text-white recom-title">{{ entry['name'] }}</p>
+                            <hr>
+                            <span class="subtitle is-6 has-text-white columns">
+                                <p class="column"><i class="fas fa-star"></i> {{ entry['score'] | scoreFormat }}</p>
+                                <p class="column has-text-right">{{ entry['price'] | currencyFormat }}</p>
+                            </span>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="card-content has-background-danger">
+                        <div class="media">
+                            <div class="media-content">
+                                <a href="/detail?idp={{ entry['id_product'] }}&idx={{ entry['index'] }}" id="postData">
+                                    <p class="title is-4 is-size-6 has-text-white recom-title">{{ entry['name'] }}</p>
+                                    <hr>
+                                    <span class="subtitle is-6 has-text-white columns">
+                                        <p class="column"><i class="fas fa-star"></i> {{ entry['score'] | scoreFormat }}</p>
+                                        <p class="column has-text-right">{{ entry['price'] | currencyFormat }}</p>
+                                    </span>
+                                </a>
+                            </div>
+                            {% endif %}
+                            {% else %}
+                            <div class="card-content has-background-warning">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <a href="/detail?idp={{ entry['id_product'] }}&idx={{ entry['index'] }}" id="postData">
+                                            <p class="title is-4 is-size-6 has-text-dark recom-title">
+                                                {{ entry['name'] }}</p>
+                                            <hr class="has-background-black">
+                                            <span class="subtitle is-6 columns">
+                                                <p class="column"><i class="fas fa-star"></i> {{ entry['score'] | scoreFormat }}</p>
+                                                <p class="column has-text-right">{{ entry['price'] | currencyFormat }}</p>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

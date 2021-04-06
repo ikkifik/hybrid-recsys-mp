@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">
+  This is 'Data' page
+</h1>
+<p class="subtitle is-size-6">
+  <strong>Data</strong> page contains list of data
+</p>
+
+
+<form action="/data" method="POST">
+  <div class="field is-grouped">
+    <p class="control is-expanded">
+      <input type="text" name="price" placeholder="Price (int)" class="input">
+    </p>
+    <p class="control is-expanded">
+      <input type="number" name="topk" placeholder="Top List (int)" class="input">
+    </p>
+    <p class="control select">
+      <select name="keyword">
+        {% for kw in keywords %}
+        <option value="{{ kw }}">{{ kw }}</option>
+        {% endfor %}
+      </select>
+    </p>
+    <p class="control">
+      <button class="button is-link">Submit</button>
+    </p>
+  </div>
+</form>
+
+<br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th><abbr title="Product Link">Url</abbr></th>
+      <th><abbr title="Marketplace">MP</abbr></th>
+      <th><abbr title="Product Name">PName</abbr></th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    {% for entry in data_entry %}
+    <tr>
+      <th>{{ loop.index }}</th>
+
+      {% if entry['url'].find('shopee') == -1%}
+      {% if entry['url'].find('bukalapak') == -1 %}
+      <td><a class="button is-success" href="{{ entry['url'] }}" target="_blank"> Go to Link</a></td>
+      <td class="has-text-success">
+        <figure class="image is-32x32">
+          <img src="{{ url_for('static', filename='images/icon/tokopedia.png') }}" alt="Tokopedia">
+        </figure>
+      </td>
+      {% else %}
+      <td><a class="button is-danger" href="{{ entry['url'] }}" target="_blank"> Go to Link</a></td>
+      <td class="has-text-danger">
+        <figure class="image is-32x32">
+          <img src="{{ url_for('static', filename='images/icon/bukalapak.ico') }}" alt="Bukalapak">
+        </figure>
+      </td>
+      {% endif %}
+      {% else %}
+      <td><a class="button is-warning" href="{{ entry['url'] }}" target="_blank"> Go to Link</a></td>
+      <td class="has-text-warning-dark">
+        <figure class="image is-32x32">
+          <img src="{{ url_for('static', filename='images/icon/shopee.png') }}" alt="Shopee">
+        </figure>
+      </td>
+      {% endif %}
+
+
+      <td width="500">{{ entry['name'] }}</td>
+      <td class="has-text-right">{{ entry['price'] | currencyFormat }}</td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="columns is-mobile is-centered is-multiline">
+  <div class="column is-half">
+    <img src="{{ url_for('static', filename='images/recsys-logo-black.png') }}" alt="" width="350">
+  </div>
+  <div class="column is-9">
+    <p class="is-12" style="text-align: left;">
+      RECSYS is a project with main concern for Recommender System, using marketplace data as object for the research.
+      There's a menu that you might want to know, here's the explanation:
+    </p>
+    <br>
+    <ol>
+      <li><strong>Homepage</strong>: Is place where you're right now. Just some greeting word to welcoming user,
+        nothing special.</li>
+      <li><strong>Data</strong>: Page that contain set of data from Indonesian Marketplace, we call it dataset
+        preview.</li>
+      <li><strong>Recommendation</strong>: Like how marketplace showing their data, it's more like GUI view for 'Data'
+        page.</li>
+      <li><strong>Graph</strong>: This page show us a graph that counted data from database, with specific area.</li>
+    </ol>
+    <br>
+    <p>
+      Enjoy exploring!
+    </p>
+  </div>
+</div>
+
+{% endblock %}

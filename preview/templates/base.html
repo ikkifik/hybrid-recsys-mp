@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ active_page.capitalize() }} | RECSYS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bulma/css/bulma.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous" />
+</head>
+
+<body class="has-navbar-fixed-top">
+  <nav class="navbar is-fixed-top is-black">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+
+        <img src="{{ url_for('static', filename='images/recsys-logo-white.png') }}"
+          alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+      </a>
+      <div class="navbar-burger" data-target="navMenuColorblack-example">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="columns">
+        <div class="column is-3">
+          <aside class="menu">
+            <p class="menu-label">
+              Menu
+            </p>
+
+            {% set navigation_list = [
+              ('/', 'index', 'Homepage'), 
+              ('/data', 'data', 'Data'), 
+              ('/recommendation', 'recommendation', 'Recommendation'),
+              ('/graph', 'graph', 'Graph')
+              ] %}
+
+            {% set active_page = active_page | default('index') %}
+
+            <ul class="menu-list">
+              {% for href, id, caption in navigation_list %}
+              <li>
+                <a {% if id == active_page %} class="has-text-weight-semibold is-active" {% endif %}
+                  href="{{ href|e }}">{{ caption|e }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <p class="menu-label">
+              Author
+            </p>
+            <ul class="menu-list">
+              <li>
+                <a href="https://github.com/ikkifik" target="_blank"><i class="fab fa-github"></i>&nbsp&nbspGithub</a>
+              </li>
+            </ul>
+
+          </aside>
+        </div>
+
+        <div class="column">
+          {% block content %}
+
+          {% endblock%}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+
+</html>
